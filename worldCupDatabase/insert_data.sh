@@ -22,7 +22,7 @@ do
   # Skip header row
   if [[ $YEAR != "year" ]]
   then
-
+   
     # get team_id for Winner
     WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'")
 
@@ -31,16 +31,35 @@ do
     then
 
       # insert team (name)
-      INSERT_TEAM_RESULT=$($PSQL "INSERT INTO teams(name) VALUES ('$WINNER')")
+      INSERT_WINNER_RESULT=$($PSQL "INSERT INTO teams(name) VALUES ('$WINNER')")
 
       # get new team_id
       WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'")
     fi
+    
+    # get team_id for Opponent
+    OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'")
+
+    #if not found
+    if [[ -z $OPPONENT_ID ]]
+    then
+
+      # insert team (name)
+      INSERT_OPPONENT_RESULT=$($PSQL "INSERT INTO teams(name) VALUES ('$OPPONENT')")
+
+      # get new team_id
+      OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'")
+    fi
+
+  # insert game details
+  INSERT_GAME_RESULT=$($PSQL "INSERT INTO games(year,round,winner_id,opponent_id,winner_goals,opponent_goals) VALUES ($YEAR,'$ROUND',$WINNER_ID,$OPPONENT_ID,$WINNER_GOALS,$OPPONENT_GOALS)")
 
     # TESTS
     
     # Test Winner Inserts
     echo Winner: $WINNER_ID, $WINNER
+    echo Opponent: $OPPONENT_ID, $OPPONENT
+    echo Game: $YEAR, $ROUND, $WINNER_ID, $OPPONENT_ID, $WINNER_GOALS, $OPPONENT_GOALS
   fi
     
 done
