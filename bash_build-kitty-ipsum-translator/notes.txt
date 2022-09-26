@@ -1,0 +1,24 @@
+> OR 1> = stdout
+>> = stdout (concatenate)
+cat = print file
+
+2> = stderr
+
+| = pipe output of first command into the input of the 2nd command
+
+wc = word count (lines,words,bytes)
+wc -l = line count
+wc -m = char count
+wc -w = word count
+
+grep = search
+grep -c 'expression' <filename> = count of lines that match case
+grep -o 'expression' <filename> = print all matches only
+sample expression = meow[a-z]* -> meow(+anything alphabetical after)
+
+grep + wc
+grep -o 'expression' <filename> | wc -l = count of matches
+
+sed = stream editor (edits stdout of the input)
+sed 's/<text to edit>/<text to change to>/' <filename> = update text if found in file
+sed 's/<text to edit>/<text to change to>/i' <filename> = update text if found in file (case-insensitive)
