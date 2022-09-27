@@ -20,5 +20,12 @@ grep + wc
 grep -o 'expression' <filename> | wc -l = count of matches
 
 sed = stream editor (edits stdout of the input)
-sed 's/<text to edit>/<text to change to>/' <filename> = update text if found in file
+sed 's/regexp/replacement/' <filename> = update text if found in file
 sed 's/<text to edit>/<text to change to>/i' <filename> = update text if found in file (case-insensitive)
+sed -r = use extended regex
+
+Sample code
+grep -n 'meow[a-z]*' kitty_ipsum_1.txt | sed -r 's/([0-9]+).*/\1/' = Print line numbers only where match
+-> Look-up meow* and print out the lines they appear with the line number | piped into sed, which will match the line number and just print out the line numbers only
+
+grep -o 'meow[a-z]*' kitty_ipsum_2.txt | wc -l = Print count of occurrences
